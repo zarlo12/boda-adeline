@@ -134,7 +134,7 @@ document
 //   });
 
 document.addEventListener("visibilitychange", function () {
-  const audio = document.getElementById("audio");
+  const audio = document.getElementById("background-music");
   console.log("🚀 ~ audio:", audio);
   if (document.visibilityState === "hidden") {
     audio.pause();

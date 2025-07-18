@@ -10,6 +10,15 @@
         document.documentElement.className = 'js';
     </script>
 
+
+    <script src="https://www.gstatic.com/firebasejs/9.0.2/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.0.2/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.0.2/firebase-auth-compat.js"></script>
+    <style>
+        .elementor-message-danger .error {
+            display: none;
+        }
+    </style>
     <link rel="stylesheet" id="font-awesome-5-all-css"
         href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" media="all" />
 
@@ -12528,20 +12537,7 @@
                                                                         data-count="100">
                                                                         <!-- <span
                                                                             class="df_field_description_text">¿Asisitirás?</span> -->
-                                                                        <p class="et_pb_contact_field"
-                                                                            data-type="radio">
-                                                                            <input type="hidden" name="meta_input[]"
-                                                                                value="de_fb_asistiras" />
-                                                                            <input type="hidden" name="field_title[]"
-                                                                                value="Asistirás" /><span
-                                                                                class="et_pb_contact_field_options_wrapper">
-                                                                                <span
-                                                                                    class="et_pb_contact_field_options_list required"
-                                                                                    data-required_message="Este campo es obligatoria"
-                                                                                    data-required_position="bottom">
-                                                                                </span>
-                                                                            </span>
-                                                                        </p>
+
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -12553,15 +12549,13 @@
                                                                         data-count="100">
                                                                         <p class="et_pb_contact_field"
                                                                             data-type="input">
-                                                                            <input type="hidden" name="field_title[]"
-                                                                                value="Tu Nombre" />
+
                                                                             <input type="text" name="de_fb_post_title"
-                                                                                id="de_fb_nombre" data-calc_default="0"
+                                                                                id="nombreInvitado"
+                                                                                data-calc_default="0"
                                                                                 placeholder="Tu Nombre*" disabled
                                                                                 class="divi-form-builder-field input-field "
-                                                                                required value=""
-                                                                                data-msg-required="This field is required."
-                                                                                data-required_position="bottom"
+                                                                                value="" data-required_position="bottom"
                                                                                 autocomplete="on" />
                                                                         </p>
                                                                     </div>
@@ -12582,12 +12576,14 @@
                                                                             <input type="hidden" name="meta_input[]"
                                                                                 value="de_fb_invitado" />
                                                                             <input type="hidden" name="field_title[]"
-                                                                                value="Invitado" /><select
+                                                                                value="Invitado" />
+
+                                                                            <select
                                                                                 class="divi-form-builder-field select-field et_pb_contact_select "
                                                                                 required name="de_fb_invitado"
                                                                                 data-field_type="select"
                                                                                 data-msg-required="Campo obligatorio"
-                                                                                id="de_fb_invitado">
+                                                                                id="listaInvitados">
                                                                                 <option value="" disabled selected>
                                                                                     Selecciona una opción
                                                                                 </option>
@@ -12600,6 +12596,8 @@
                                                                                 <option value="5">5</option>
                                                                                 <option value="6">6</option>
                                                                             </select>
+
+
                                                                         </p>
                                                                     </div>
                                                                 </div>
@@ -12860,23 +12858,7 @@
                                                                                         });
                                                                                     }
 
-                                                                                    if (form.find('.divi-form-submit').hasClass('de_fb_ajax_submit') && paymentEnabled !== 'on') {
-                                                                                        $(this).addClass('submitting');
-                                                                                        de_fb_ajax_form_submit(form[0]);
-                                                                                        e.preventDefault();
-                                                                                    } else {
 
-                                                                                        if (paymentEnabled == 'off' || (paymentEnabled == 'on' && !stripeEnabled)) {
-                                                                                            $(this).addClass('submitting');
-                                                                                            jQuery("#fb_form_5934-0").find('.fb_nonce').remove();
-                                                                                            jQuery("#fb_form_5934-0").append('<input type="hidden" name="fb_nonce" class="fb_nonce" value="65259d499f">');
-                                                                                            if ((!paymentInput.length || !paymentInput.hasClass('input-error'))) {
-                                                                                                jQuery("#fb_form_5934-0").unbind('submit').submit();
-                                                                                            } else {
-                                                                                                form.find('.divi-form-submit').prop('disabled', false);
-                                                                                            }
-                                                                                        }
-                                                                                    }
                                                                                 }
                                                                             } else {
                                                                                 e.preventDefault();
@@ -12889,7 +12871,7 @@
                                                                 <div class="de_fb_submit_container">
                                                                     <div class="divi-form-submit-container">
                                                                         <button class="divi-form-submit et_pb_button "
-                                                                            type="submit">
+                                                                            id="btn_send_counterzz" type="submit">
                                                                             CONFIRMAR
                                                                         </button>
                                                                     </div>
@@ -17099,6 +17081,8 @@
     <script>
         function init() { for (var t = document.getElementsByTagName("img"), e = 0; e < t.length; e++)t[e].getAttribute("data-src") && t[e].setAttribute("src", t[e].getAttribute("data-src")) } window.onload = init; jQuery(document).ready(function ($) { $(document).ajaxSuccess(function () { init(); }); $(document.body).on('updated_cart_totals', function () { init(); }); });
     </script>
+
+    <script type="module" src="./scripts.js"></script>
 </body>
 
 </html>

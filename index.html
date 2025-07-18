@@ -10304,6 +10304,51 @@
     </style>
 
     <style>
+        /* Estilos para normalizar el tamaño de las imágenes de la galería */
+        .dica-item-image {
+            width: 100% !important;
+            height: 400px !important;
+            object-fit: cover !important;
+            object-position: center !important;
+            border-radius: 8px;
+        }
+
+        .dica-image-container {
+            width: 100% !important;
+            height: 400px !important;
+            overflow: hidden;
+            border-radius: 8px;
+        }
+
+        .dica-image-container .image {
+            display: block;
+            width: 100%;
+            height: 100%;
+        }
+
+        /* Responsive para móviles */
+        @media (max-width: 768px) {
+            .dica-item-image {
+                height: 300px !important;
+            }
+
+            .dica-image-container {
+                height: 300px !important;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .dica-item-image {
+                height: 250px !important;
+            }
+
+            .dica-image-container {
+                height: 250px !important;
+            }
+        }
+    </style>
+
+    <style>
         .de_dn_youtube_video {
             position: relative;
             padding-bottom: 56.23%;
@@ -12372,9 +12417,9 @@
                                                         </div>
                                                         <div class="swiper-buttton-container">
                                                             <div class="swiper-button-prev dica-prev-btn-1"
-                                                                data-icon="4"></div>
+                                                                data-icon="&#8249;"></div>
                                                             <div class="swiper-button-next dica-next-btn-1"
-                                                                data-icon="&#x35;"></div>
+                                                                data-icon="&#8250;"></div>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -12481,8 +12526,8 @@
                                                                     <div id="de_fb_asistirás_wrapper"
                                                                         class="field_wrapper search_filter_cont "
                                                                         data-count="100">
-                                                                        <span
-                                                                            class="df_field_description_text">¿Asisitirás?</span>
+                                                                        <!-- <span
+                                                                            class="df_field_description_text">¿Asisitirás?</span> -->
                                                                         <p class="et_pb_contact_field"
                                                                             data-type="radio">
                                                                             <input type="hidden" name="meta_input[]"
@@ -12493,34 +12538,8 @@
                                                                                 <span
                                                                                     class="et_pb_contact_field_options_list required"
                                                                                     data-required_message="Este campo es obligatoria"
-                                                                                    data-required_position="bottom"><span
-                                                                                        class="et_pb_contact_field_checkbox">
-                                                                                        <input type="radio"
-                                                                                            id="et_pb_contact_de_fb_asistirás_0_0"
-                                                                                            class="divi-form-builder-field radio-field"
-                                                                                            name="de_fb_asistiras"
-                                                                                            value="Si" data-id="Si" />
-                                                                                        <label class=""
-                                                                                            for="et_pb_contact_de_fb_asistirás_0_0">
-                                                                                            <i></i>
-                                                                                            <span class="label_wrapper">
-                                                                                                <span>Si</span>
-                                                                                            </span>
-                                                                                        </label> </span><span
-                                                                                        class="et_pb_contact_field_checkbox">
-                                                                                        <input type="radio"
-                                                                                            id="et_pb_contact_de_fb_asistirás_0_1"
-                                                                                            class="divi-form-builder-field radio-field"
-                                                                                            name="de_fb_asistiras"
-                                                                                            value="No" data-id="No" />
-                                                                                        <label class=""
-                                                                                            for="et_pb_contact_de_fb_asistirás_0_1">
-                                                                                            <i></i>
-                                                                                            <span class="label_wrapper">
-                                                                                                <span>No</span>
-                                                                                            </span>
-                                                                                        </label>
-                                                                                    </span></span>
+                                                                                    data-required_position="bottom">
+                                                                                </span>
                                                                             </span>
                                                                         </p>
                                                                     </div>
@@ -12538,7 +12557,7 @@
                                                                                 value="Tu Nombre" />
                                                                             <input type="text" name="de_fb_post_title"
                                                                                 id="de_fb_nombre" data-calc_default="0"
-                                                                                placeholder="Tu Nombre*"
+                                                                                placeholder="Tu Nombre*" disabled
                                                                                 class="divi-form-builder-field input-field "
                                                                                 required value=""
                                                                                 data-msg-required="This field is required."

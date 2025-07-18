@@ -72,7 +72,7 @@ if (invitado) {
 function enviarWhatsApp(nombre, numeroInvitados) {
   console.log("🚀 ~ enviarWhatsApp ~ numeroInvitados:", numeroInvitados);
   console.log("🚀 ~ enviarWhatsApp ~ nombre:", nombre);
-  const numeroTelefono = "+5215548046579"; // Reemplaza con el número de teléfono al que deseas enviar el mensaje
+  const numeroTelefono = "+5216141957930"; // Reemplaza con el número de teléfono al que deseas enviar el mensaje
   let mensaje = `Hola soy *${nombre}* \n\nConfirmo el número de acompañantes: ${numeroInvitados}`;
   if (numeroInvitados == "No podra asistir") {
     mensaje = `Hola soy ${nombre}, confirmo que no podre asistir.`;
@@ -89,7 +89,7 @@ function enviarWhatsApp(nombre, numeroInvitados) {
 function enviarWhatsAppForm(nombre_form, anecdota_form, deseos_form) {
   // console.log("🚀 ~ enviarWhatsApp ~ numeroInvitados:", numeroInvitados);
   // console.log("🚀 ~ enviarWhatsApp ~ nombre:", nombre);
-  const numeroTelefono = "+5215548046579"; // Reemplaza con el número de teléfono al que deseas enviar el mensaje
+  const numeroTelefono = "+5216141957930"; // Reemplaza con el número de teléfono al que deseas enviar el mensaje
   let mensaje = `Hola soy ${nombre_form},\nConfirmó mi invitación. `;
 
   mensaje = mensaje + "\n\n*Anecdota juntos:* " + anecdota_form;

@@ -11742,6 +11742,84 @@
 
 <body data-rsssl="1"
     class="home wp-singular page-template-default page page-id-5934 custom-background wp-theme-Divi et_pb_button_helper_class et_fullwidth_nav et_fullwidth_secondary_nav et_non_fixed_nav et_show_nav et_hide_primary_logo et_primary_nav_dropdown_animation_fade et_secondary_nav_dropdown_animation_fade et_header_style_centered et_pb_footer_columns1 et_cover_background et_pb_gutter osx et_pb_gutters3 et_pb_pagebuilder_layout et_smooth_scroll et_no_sidebar et_divi_theme et-db">
+
+    <!-- Música de fondo automática mejorada -->
+    <audio id="background-music" loop preload="auto" style="display: none;">
+        <source src="./musica.mp3" type="audio/mpeg">
+        <source src="./musica.wav" type="audio/wav">
+        <source src="./musica.ogg" type="audio/ogg">
+        Tu navegador no soporta audio HTML5.
+    </audio>
+
+    <script>
+        (function () {
+            let musicStarted = false;
+            const audio = document.getElementById('background-music');
+
+            // Configurar el audio
+            audio.volume = 0.6;
+            audio.muted = false;
+
+            function startMusic() {
+                if (!musicStarted && audio.paused) {
+                    audio.play().then(() => {
+                        musicStarted = true;
+                        console.log('🎵 Música iniciada');
+                        removeAllListeners();
+                    }).catch(e => {
+                        console.log('🔇 Error al reproducir:', e.message);
+                    });
+                }
+            }
+
+            function removeAllListeners() {
+                document.removeEventListener('click', startMusic, true);
+                document.removeEventListener('touchstart', startMusic, true);
+                document.removeEventListener('scroll', startMusic, true);
+                document.removeEventListener('mousemove', startMusic, true);
+                document.removeEventListener('keydown', startMusic, true);
+                window.removeEventListener('focus', startMusic, true);
+            }
+
+            // Intentar reproducir inmediatamente
+            function tryAutoplay() {
+                startMusic();
+
+                // Si no se pudo reproducir, agregar listeners
+                setTimeout(() => {
+                    if (!musicStarted) {
+                        console.log('🎵 Esperando interacción para iniciar música...');
+
+                        // Agregar múltiples tipos de eventos
+                        document.addEventListener('click', startMusic, { capture: true, passive: true });
+                        document.addEventListener('touchstart', startMusic, { capture: true, passive: true });
+                        document.addEventListener('scroll', startMusic, { capture: true, passive: true });
+                        document.addEventListener('mousemove', startMusic, { capture: true, passive: true });
+                        document.addEventListener('keydown', startMusic, { capture: true, passive: true });
+                        window.addEventListener('focus', startMusic, { capture: true, passive: true });
+
+                        // Listener especial para cuando la página se vuelve visible
+                        document.addEventListener('visibilitychange', function () {
+                            if (!document.hidden && !musicStarted) {
+                                setTimeout(startMusic, 100);
+                            }
+                        });
+                    }
+                }, 3000);
+            }
+
+            // Iniciar cuando el DOM esté listo
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', tryAutoplay);
+            } else {
+                tryAutoplay();
+            }
+
+            // También intentar cuando la ventana se carga completamente
+            window.addEventListener('load', tryAutoplay);
+        })();
+    </script>
+
     <div class="divi-mobile-menu">
         <div class="divi-mobile-menu-inner">
             <div id="dm_nav" class="menu-wrap menuclosed">

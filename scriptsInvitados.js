@@ -25,7 +25,7 @@ function generarCodigoFijo(nombre) {
   return Math.abs(hash).toString(36).substring(0, 6).toUpperCase(); // Convertir el hash a base 36 y truncar
 }
 
-const baseUrl = "https://invitacion-boda-adeline-alan.vercel.app";
+const baseUrl = "https://invitacion-boda-adilene-alan.vercel.app";
 
 // Función para mostrar y ocultar el indicador de carga
 function mostrarCargando(mostrar) {

@@ -11752,72 +11752,170 @@
     </audio>
 
     <script>
-        (function () {
-            let musicStarted = false;
-            const audio = document.getElementById('background-music');
+        // Función para iniciar el audio con una interacción del usuario (clic o scroll)
+        var hasPlayed = false; // Variable de control
+        var audio = document.getElementById("background-music");
 
-            // Configurar el audio
-            audio.volume = 0.6;
-            audio.muted = false;
+        // Configurar el audio
+        audio.volume = 0.5;
+        audio.loop = true;
 
-            function startMusic() {
-                if (!musicStarted && audio.paused) {
-                    audio.play().then(() => {
-                        musicStarted = true;
-                        console.log('🎵 Música iniciada');
-                        removeAllListeners();
-                    }).catch(e => {
-                        console.log('🔇 Error al reproducir:', e.message);
-                    });
+        function playAudioOnInteraction() {
+            if (!hasPlayed) { // Verificamos si la función ya fue ejecutada
+                audio.play().then(() => {
+                    hasPlayed = true; // Marcamos que ya se ejecutó
+                    console.log('🎵 Música iniciada automáticamente');
+                    removeEventListeners();
+                }).catch(e => {
+                    console.log('🔇 Error al reproducir:', e.message);
+                });
+            }
+        }
+
+        function removeEventListeners() {
+            // Remover todos los event listeners una vez que la música haya iniciado
+            if (window.innerWidth < 1060) { // Si es un dispositivo móvil
+                window.removeEventListener("touchstart", playAudioOnInteraction);
+                window.removeEventListener("touchmove", playAudioOnInteraction);
+            } else { // Si es una PC
+                window.removeEventListener("click", playAudioOnInteraction);
+                window.removeEventListener("scroll", playAudioOnInteraction);
+                window.removeEventListener("mousemove", playAudioOnInteraction);
+            }
+        }
+
+        // Detectar eventos de tap/scroll en móvil o clic/scroll en PC
+        function initializeAudioListeners() {
+            if (window.innerWidth < 1060) { // Si es un dispositivo móvil
+                window.addEventListener("touchstart", playAudioOnInteraction, { passive: true });
+                window.addEventListener("touchmove", playAudioOnInteraction, { passive: true }); // Agregamos touchmove para detectar el scroll en móvil
+            } else { // Si es una PC
+                window.addEventListener("click", playAudioOnInteraction, { passive: true });
+                window.addEventListener("scroll", playAudioOnInteraction, { passive: true });
+                window.addEventListener("mousemove", playAudioOnInteraction, { passive: true });
+            }
+        }
+
+        // Inicializar los listeners cuando el DOM esté listo
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', initializeAudioListeners);
+        } else {
+            initializeAudioListeners();
+        }
+
+        // Control de visibilidad para pausar/reanudar música
+        document.addEventListener("visibilitychange", function () {
+            if (hasPlayed) { // Solo controlar si ya se había iniciado la música
+                if (document.visibilityState === "hidden") {
+                    audio.pause();
+                } else if (document.visibilityState === "visible") {
+                    audio.play().catch(e => console.log('Error al reanudar:', e.message));
                 }
             }
+        });
+    </script>
 
-            function removeAllListeners() {
-                document.removeEventListener('click', startMusic, true);
-                document.removeEventListener('touchstart', startMusic, true);
-                document.removeEventListener('scroll', startMusic, true);
-                document.removeEventListener('mousemove', startMusic, true);
-                document.removeEventListener('keydown', startMusic, true);
-                window.removeEventListener('focus', startMusic, true);
+    <!-- Botón de control de música -->
+    <style>
+        .music-control-button {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 9999;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 60px;
+            height: 60px;
+            border: none;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .music-control-button:hover {
+            background: rgba(255, 255, 255, 1);
+            transform: scale(1.1);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .music-control-button img {
+            width: 35px;
+            height: 35px;
+            object-fit: contain;
+        }
+
+        .music-control-button i {
+            font-size: 20px;
+            color: #333;
+        }
+
+        .music-control-button #musicPausedIcon {
+            display: none;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .music-control-button {
+                width: 50px;
+                height: 50px;
+                top: 15px;
+                right: 15px;
             }
 
-            // Intentar reproducir inmediatamente
-            function tryAutoplay() {
-                startMusic();
-
-                // Si no se pudo reproducir, agregar listeners
-                setTimeout(() => {
-                    if (!musicStarted) {
-                        console.log('🎵 Esperando interacción para iniciar música...');
-
-                        // Agregar múltiples tipos de eventos
-                        document.addEventListener('click', startMusic, { capture: true, passive: true });
-                        document.addEventListener('touchstart', startMusic, { capture: true, passive: true });
-                        document.addEventListener('scroll', startMusic, { capture: true, passive: true });
-                        document.addEventListener('mousemove', startMusic, { capture: true, passive: true });
-                        document.addEventListener('keydown', startMusic, { capture: true, passive: true });
-                        window.addEventListener('focus', startMusic, { capture: true, passive: true });
-
-                        // Listener especial para cuando la página se vuelve visible
-                        document.addEventListener('visibilitychange', function () {
-                            if (!document.hidden && !musicStarted) {
-                                setTimeout(startMusic, 100);
-                            }
-                        });
-                    }
-                }, 3000);
+            .music-control-button img {
+                width: 28px;
+                height: 28px;
             }
 
-            // Iniciar cuando el DOM esté listo
-            if (document.readyState === 'loading') {
-                document.addEventListener('DOMContentLoaded', tryAutoplay);
+            .music-control-button i {
+                font-size: 16px;
+            }
+        }
+    </style>
+
+    <button class="music-control-button" id="musicControlButton" title="Controlar música">
+        <i class="fas fa-music" id="musicPlayingIcon" style="color: #333;"></i>
+        <i class="fas fa-volume-mute" id="musicPausedIcon" style="display: none; color: #333;"></i>
+    </button>
+
+    <script>
+        // Control del botón de música
+        document.getElementById('musicControlButton').addEventListener('click', function () {
+            const audio = document.getElementById('background-music');
+            const pausedIcon = document.getElementById('musicPausedIcon');
+            const playingIcon = document.getElementById('musicPlayingIcon');
+
+            if (audio.paused) {
+                // Si está pausado, reproducir
+                audio.play().then(() => {
+                    pausedIcon.style.display = 'none';
+                    playingIcon.style.display = 'block';
+                    hasPlayed = true;
+                }).catch(e => {
+                    console.log('Error al reproducir música:', e.message);
+                });
             } else {
-                tryAutoplay();
+                // Si está reproduciéndose, pausar
+                audio.pause();
+                pausedIcon.style.display = 'block';
+                playingIcon.style.display = 'none';
             }
+        });
 
-            // También intentar cuando la ventana se carga completamente
-            window.addEventListener('load', tryAutoplay);
-        })();
+        // Sincronizar el botón con el estado del audio
+        document.getElementById('background-music').addEventListener('play', function () {
+            document.getElementById('musicPausedIcon').style.display = 'none';
+            document.getElementById('musicPlayingIcon').style.display = 'block';
+        });
+
+        document.getElementById('background-music').addEventListener('pause', function () {
+            document.getElementById('musicPausedIcon').style.display = 'block';
+            document.getElementById('musicPlayingIcon').style.display = 'none';
+        });
     </script>
 
     <div class="divi-mobile-menu">
@@ -12296,7 +12394,7 @@
                                                     </div>
                                                     <div class="et_pb_blurb_container">
                                                         <h4 class="et_pb_module_header">
-                                                            <span>ITS PARTY TIME
+                                                            <span>IT'S PARTY TIME
                                                             </span>
                                                         </h4>
                                                         <div class="et_pb_blurb_description">
@@ -12323,7 +12421,7 @@
                                             <div
                                                 class="et_pb_module et_pb_text et_pb_text_14 et_animated  et_pb_text_align_left et_pb_bg_layout_light">
                                                 <div class="et_pb_text_inner">
-                                                    <p style="text-align: center;">DRESS CODE</p>
+                                                    <p style="text-align: center;">CÓDIGO DE VESTIMENTA</p>
                                                 </div>
                                             </div>
                                             <div
@@ -12332,13 +12430,11 @@
                                             </div>
                                             <div
                                                 class="et_pb_module et_pb_text et_pb_text_15  et_pb_text_align_left et_pb_bg_layout_light">
-                                                <div class="et_pb_text_inner">
+                                                <div class="et_pb_text_inner"><BR>
                                                     <p style="text-align: center;">
-                                                        <span><em><strong>Mujeres:</strong></em> Vestido de Noche</span>
+                                                        <span><em><strong>FORMAL</strong></em> </span>
                                                     </p>
-                                                    <p style="text-align: center;">
-                                                        <span><em><strong>Hombres:</strong></em> Formal</span>
-                                                    </p>
+
                                                 </div>
                                             </div>
                                             <div

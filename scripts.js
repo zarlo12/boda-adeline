@@ -133,12 +133,4 @@ document
 //     enviarWhatsAppForm(nombre_form, anecdota_form, deseos_form);
 //   });
 
-document.addEventListener("visibilitychange", function () {
-  const audio = document.getElementById("background-music");
-  console.log("🚀 ~ audio:", audio);
-  if (document.visibilityState === "hidden") {
-    audio.pause();
-  } else if (document.visibilityState === "visible") {
-    audio.play();
-  }
-});
+// Audio control code moved to index.html for better integration
